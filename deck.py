@@ -2,16 +2,28 @@ import random
 
 
 class Card:
-    RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-    SUITS = ["♣", "♦", "♥", "♠"]
+    RANKS = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
+    SUITS = ["♠", "♣", "♦", "♥"]
 
     def __init__(self, rank, suit):
         if rank not in self.RANKS:
-            raise ValueError("invalid rank")
+            raise ValueError(f"Invalid rank: {rank}")
         if suit not in self.SUITS:
-            raise ValueError("invalid suit")
+            raise ValueError(f"Invalid suit: {suit}")
         self._rank = rank
         self._suit = suit
+
+    def __eq__(self, other):
+        return self.rank == other.rank
+
+    def __lt__(self, other):
+        return self.RANKS.index(self.rank) < self.RANKS.index(other.rank)
+
+    def __str__(self):
+        return f"{self.rank}{self.suit}"
+
+    def __repr__(self):
+        return self.__str__()
 
     @property
     def rank(self):
@@ -21,39 +33,34 @@ class Card:
     def suit(self):
         return self._suit
 
-    def __str__(self):
-        return f"{self._rank}{self._suit}"
-
-    def __repr__(self):
-        return self.__str__() #repr is the same as str
 
 class Deck:
     def __init__(self):
         _cards = []
-        for suit in Card.SUITS:
-            for rank in Card.RANKS:
+        for rank in Card.RANKS:
+            for suit in Card.SUITS:
                 _cards.append(Card(rank, suit))
-        self._cards = _cards
+        self._deck = _cards
 
     @property
-    def cards(self):
-        return self._cards
+    def deck(self):
+        return self._deck
 
     def __str__(self):
-        return str(self._cards)
+        return f"{self._deck}"
 
     def shuffle(self):
-        random.shuffle(self.cards)
+        random.shuffle(self._deck)
 
     def deal(self):
-        return self.cards.pop(0)
+        return self._deck.pop(0)
+
 
 if __name__ == "__main__":
-    c1 = Card("A", "♣")
-    print(c1)
     deck = Deck()
     print(deck)
     deck.shuffle()
-    print(deck)
     print(deck.deal())
-    print(deck)
+
+# c1 = Card("A", "♠")
+# print(c1)
