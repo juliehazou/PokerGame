@@ -117,8 +117,6 @@ class Hand:
             return False
         return True
 
-
-# Simulation to calculate frequency of straights
 count = 0
 matches = 0
 while matches < 1000:
@@ -129,6 +127,4 @@ while matches < 1000:
     if h.is_straight:
         matches += 1
 
-print(100 * (matches / count))  # Prints the percentage of hands that were straights
-
-
+print(100 * (matches / count))
